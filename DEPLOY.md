@@ -84,3 +84,17 @@ git commit -am "chore: baseUrl 확정" && git push
 - **이미지**는 `post-image.valley.town` 외부 URL 그대로다(12개 로드 확인). CDN이 사라지면 깨지므로 장기 보관이 필요하면 레포 미러링을 고려.
 - **noindex**는 `vercel.json`의 `X-Robots-Tag` 헤더로 건다. `robots.txt`로 막지 않은 이유는, 크롤링을 막으면 크롤러가 noindex 지시 자체를 못 읽어 URL만 색인될 수 있기 때문이다. 색인을 다시 허용하려면 이 헤더를 지우고 `enableSiteMap: true`로 되돌리면 된다.
 - 공개 레포 히스토리는 **orphan 단일 커밋**으로 시작했다(Quartz upstream 히스토리 미포함).
+- ⚠️ **실행 권한 비트 주의 (Windows 함정).** 이 저장소는 `core.filemode=false`(Windows)라 git이 실행 비트를 감지하지 못한다.
+  파일을 새로 추가하면 `100644`로 기록되는데, shebang이 있는 실행 파일이 그렇게 올라가면
+  **Linux(Vercel)에서 실행되지 않아 빌드가 exit 1로 실패한다.** 실제로 첫 배포가 이 이유로 실패했다.
+  새로 추가하는 실행 파일은 아래처럼 비트를 직접 세울 것:
+
+  ```bash
+  git update-index --chmod=+x <파일경로>
+  ```
+
+  현재 `100755`로 맞춰둔 파일: `quartz/bootstrap-cli.mjs`, `quartz/bootstrap-worker.mjs`,
+  `quartz/plugins/loader/install-plugins.ts`, `scripts/sync-content.mjs`.
+- 빌드 명령은 `npx quartz build`가 아니라 **`node ./quartz/bootstrap-cli.mjs build`** 를 쓴다.
+  `quartz`가 `node_modules/.bin`에 링크되지 않아 `npx`가 레지스트리에서 엉뚱한 패키지를 받아올 수 있고,
+  실행 비트에도 의존하게 되기 때문이다.
