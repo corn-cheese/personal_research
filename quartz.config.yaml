@@ -107,8 +107,17 @@ plugins:
   - source: "@quartz-community/roam"
     enabled: false
     order: 92
+  # theme.typography 만 바꾸면 이 플러그인이 별도 stylesheet(resource-style-*.css)로
+  # 기본 폰트(Source Sans Pro)를 나중에 덮어써서 한글 폰트가 적용되지 않는다.
+  # 여기서 명시적으로 지정해야 실제로 반영된다.
   - source: "@quartz-community/quartz-fonts"
     enabled: true
+    options:
+      fontOrigin: googleFonts
+      header: Noto Sans KR
+      body: Noto Sans KR
+      interface: Noto Sans KR
+      code: IBM Plex Mono
   - source: "@quartz-community/remove-draft"
     enabled: true
   - source: "@quartz-community/explicit-publish"

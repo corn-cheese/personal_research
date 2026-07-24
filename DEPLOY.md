@@ -26,30 +26,18 @@ cd D:\Claude\tungsten-notes && npx quartz build --serve
 
 ---
 
+## 사이트 주소
+
+**https://personal-research-ten.vercel.app**
+
+> `personal-research.vercel.app` 은 **무관한 타인의 Next.js 프로젝트**가 이미 선점한 주소다. 헷갈리지 말 것.
+> Vercel 프로젝트 `corn-cheeses-projects/personal-research` 가 GitHub 레포에 연결돼 있어 **push하면 자동 재배포**된다.
+
+---
+
 ## 남은 것 — 계정 권한 필요
 
-### 1. Vercel 연결 (직접)
-
-1. Vercel → **Add New → Project → `corn-cheese/personal_research` import**
-2. 빌드 설정은 `vercel.json`이 지정하므로 그대로 둔다
-   (Build `npx quartz build` / Output `public` / Install `npm install`)
-3. Node 버전 **22.x** 확인 (`.node-version` = v22.16.0)
-4. Deploy
-
-### 2. baseUrl 확정
-
-배포 주소가 나오면 `quartz.config.yaml`의 `baseUrl`을 실제 주소로 맞춘다.
-현재 값은 추정치 `personal-research.vercel.app` (도메인에 밑줄을 못 써서 Vercel이 `_`→`-`로 바꾼다).
-
-```bash
-cd D:\Claude\tungsten-notes
-# quartz.config.yaml 의 baseUrl 수정 후
-git commit -am "chore: baseUrl 확정" && git push
-```
-
-> 화면 렌더에는 영향 없고 RSS/OG 이미지의 절대 URL에만 쓰인다.
-
-### 3. 자동 동기화 켜기
+### 1. 자동 동기화 켜기
 
 1. **PAT 발급**: GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens**
    - Repository access: **`personal_research` 하나만**
@@ -68,7 +56,7 @@ git commit -am "chore: baseUrl 확정" && git push
    > ⚠️ Valley엔 미커밋 변경(`CLAUDE.md` 수정, `NG 조사/`, `THM 조사/`, `QUARTZ_IMPLEMENTATION_PLAN.md`)이 있다.
    > `git add .` 쓰지 말고 **워크플로 파일만** 지정할 것.
 
-### 4. 동작 확인
+### 2. 동작 확인
 
 `텅스텐 조사/docs`의 문서에 한 줄 추가 → Valley push → Actions 실행 →
 `personal_research`에 커밋 생성 → Vercel 재배포 → 수 분 내 반영. 확인 후 원복.
