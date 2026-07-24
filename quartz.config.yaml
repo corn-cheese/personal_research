@@ -6,10 +6,9 @@ configuration:
   enablePopovers: true
   analytics: null
   locale: ko-KR
-  # TODO: Vercel 배포 후 실제 도메인으로 교체.
-  # 레포가 personal_research 이므로 Vercel 기본 도메인은 personal-research.vercel.app 이 될 가능성이 높다
-  # (도메인에는 밑줄을 못 쓰므로 Vercel이 _ 를 - 로 바꾼다). 배포 후 실제 주소로 확정할 것.
-  baseUrl: personal-research.vercel.app
+  # 실제 프로덕션 주소. personal-research.vercel.app 은 이미 남의 프로젝트가 선점해서
+  # Vercel이 -ten 을 붙여 발급했다. (그 주소는 무관한 Next.js 앱이니 쓰지 말 것)
+  baseUrl: personal-research-ten.vercel.app
   ignorePatterns:
     - private
     - templates
