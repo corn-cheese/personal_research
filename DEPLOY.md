@@ -1,4 +1,4 @@
-# 배포 런북 (텅스텐 조사 → 공개 사이트)
+# 배포 런북 (리서치 노트 → 공개 사이트)
 
 - 공개 레포: **`corn-cheese/personal_research`** (public)
 - 공개 수위: **A (전체 공개)** · 동기화: **① GitHub Actions 자동**
@@ -11,18 +11,38 @@
 | 항목 | 상태 |
 |---|---|
 | Quartz v5 프로젝트 | `D:\Claude\tungsten-notes` (폴더명은 로컬용, 레포명과 달라도 무방) |
-| `quartz.config.yaml` | `ko-KR`, Noto Sans KR, 제목 「텅스텐 조사」, analytics·latex·sitemap 끔 |
+| `quartz.config.yaml` | `ko-KR`, Noto Sans KR, 제목 「리서치 노트」, analytics·latex·sitemap 끔 |
 | `vercel.json` | `cleanUrls`, 빌드/출력 설정, **`X-Robots-Tag: noindex` 헤더** |
-| `content/` | 완성 문서 11개 + `index.md` |
-| `scripts/sync-content.mjs` | 선별·리네임·하이라이트/수식 정규화 |
-| 공개 레포 push | **완료** (orphan `main`, 단일 초기 커밋) |
-| Valley 워크플로 파일 | `Valley/.github/workflows/publish-tungsten.yml` 생성됨 (**아직 미커밋**) |
+| `content/텅스텐_조사/` | 완성 문서 15개 (0~14) + `index.md` |
+| `content/매크로_포워드_0727-0731/` | 완성 문서 9개 (00~08) + `index.md` |
+| `scripts/sync-content.mjs` | 다중 소스 선별·리네임·정규화(하이라이트/수식/형제링크/제목) |
+| 공개 레포 push | **완료** |
+| Valley 워크플로 | `Valley/.github/workflows/publish-research.yml` **커밋·push 완료** |
 
-로컬 미리보기:
+로컬 미리보기(빌드 후 정적 서브):
 
 ```bash
-cd D:\Claude\tungsten-notes && npx quartz build --serve
+cd D:\Claude\tungsten-notes && node ./quartz/bootstrap-cli.mjs build && npx -y serve -l 8099 public
 ```
+
+수동 동기화(Valley 원본 → `content/`):
+
+```bash
+cd D:\Claude\tungsten-notes && node scripts/sync-content.mjs "D:/Claude/Financial_Reports/Valley"
+```
+
+---
+
+## 섹션을 추가할 때
+
+두 곳을 **같이** 고쳐야 한다. 한 곳만 고치면 조용히 안 돌거나 실패한다.
+
+1. `scripts/sync-content.mjs` 의 **`SECTIONS`** — 소스 폴더 / 발행 폴더명 / exclude·rename
+2. `Valley/.github/workflows/publish-research.yml` 의 **`paths:`** 트리거 — 여기 빠지면
+   그 폴더를 고쳐도 워크플로가 아예 실행되지 않는다
+
+그리고 `content/<새 섹션>/index.md` 목차와 루트 `content/index.md` 허브에 링크를 추가한다.
+(섹션 폴더의 `index.md` 는 숫자로 시작하지 않으므로 동기화가 지우지 않는다)
 
 ---
 
@@ -33,33 +53,35 @@ cd D:\Claude\tungsten-notes && npx quartz build --serve
 > `personal-research.vercel.app` 은 **무관한 타인의 Next.js 프로젝트**가 이미 선점한 주소다. 헷갈리지 말 것.
 > Vercel 프로젝트 `corn-cheeses-projects/personal-research` 가 GitHub 레포에 연결돼 있어 **push하면 자동 재배포**된다.
 
+섹션 주소:
+
+- 텅스텐 조사 — <https://personal-research-ten.vercel.app/텅스텐_조사/>
+- 매크로 포워드 0727-0731 — <https://personal-research-ten.vercel.app/매크로_포워드_0727-0731/>
+
 ---
 
 ## 남은 것 — 계정 권한 필요
 
-### 1. 자동 동기화 켜기
+### 1. 자동 동기화 켜기 (PAT 시크릿만 남았다)
+
+워크플로 파일은 커밋·push 됐다. **`PUBLIC_REPO_TOKEN` 시크릿이 없으면 워크플로가
+public 레포 체크아웃 단계에서 실패**하므로 이것만 등록하면 자동 동기화가 살아난다.
 
 1. **PAT 발급**: GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens**
    - Repository access: **`personal_research` 하나만**
    - Permissions: **Contents → Read and write**
 2. **Valley에 시크릿 등록**: `corn-cheese/Valley` → Settings → Secrets and variables → Actions
    → New repository secret → 이름 **`PUBLIC_REPO_TOKEN`**, 값 = 위 PAT
-3. **워크플로 커밋** (Valley에서):
 
-   ```bash
-   cd D:\Claude\Financial_Reports\Valley
-   git add .github/workflows/publish-tungsten.yml
-   git commit -m "ci: 텅스텐 조사 공개 사이트 동기화"
-   git push
-   ```
-
-   > ⚠️ Valley엔 미커밋 변경(`CLAUDE.md` 수정, `NG 조사/`, `THM 조사/`, `QUARTZ_IMPLEMENTATION_PLAN.md`)이 있다.
-   > `git add .` 쓰지 말고 **워크플로 파일만** 지정할 것.
+> ⚠️ Valley에 커밋할 때 `git add .` 쓰지 말 것. 미커밋 상태인 조사 원본
+> (`매크로 포워드 0727-0731/`, `텅스텐 조사/docs/11~14`, `월가아재_멘토링/week4/`)이 함께 올라간다.
+> 그 문서들은 이미 공개 사이트에 반영돼 있지만, Valley 히스토리에 넣을지는 별개 판단이다.
 
 ### 2. 동작 확인
 
-`텅스텐 조사/docs`의 문서에 한 줄 추가 → Valley push → Actions 실행 →
-`personal_research`에 커밋 생성 → Vercel 재배포 → 수 분 내 반영. 확인 후 원복.
+Actions → **Publish 리서치 노트 → public site** → `Run workflow`(수동 실행) 로 확인하는 게
+가장 간단하다. 성공하면 `personal_research`에 `sync:` 커밋이 생기고 Vercel이 수 분 내 재배포한다.
+(원본 문서를 건드려 트리거를 확인하려면 `텅스텐 조사/docs` 또는 `매크로 포워드 0727-0731` 아래를 고쳐야 한다.)
 
 ---
 
@@ -67,6 +89,17 @@ cd D:\Claude\tungsten-notes && npx quartz build --serve
 
 - **latex 플러그인은 계속 꺼둘 것.** 본문 통화 표기(`$700`, `$232/mtu`) 848건을 remarkMath가 수식으로 오인식해 530곳이 깨졌다. remarkMath가 옵션 없이 등록돼 `singleDollarTextMath`를 못 끈다. 문서 3의 진짜 수식 1개는 동기화 스크립트가 평문으로 바꾼다. **앞으로 문서에 진짜 수식을 쓰려면 이 제약을 기억할 것.**
 - **하이라이트 `==**굵게**==`** 는 Quartz가 내부 볼드를 못 읽어 `**`가 그대로 보인다. 동기화 스크립트가 `<span class="text-highlight"><strong>…</strong></span>`로 바꾼다. **원본(Valley)은 건드리지 않는다.**
+- **원본의 형제 링크에 `../` 가 붙어 있다.** 같은 `docs/` 안의 형제인데도 `](../1_텅스텐_총수요.md)`
+  처럼 적혀 있고, 한 곳은 `](/mnt/user-data/uploads/.../5_전체_개괄.md)` 절대경로다. 문서가 `content/`
+  루트에 평평하게 있을 때는 `../` 가 루트 밖으로 못 나가 **우연히** 맞는 곳에 떨어졌는데, 섹션 폴더로
+  옮기면 폴더 밖을 가리켜 깨진다. 동기화 스크립트가 **발행 대상 문서명과 일치할 때만** 경로를 벗긴다.
+  `_parts/` 조각을 가리키는 링크(36개)는 원본 그대로 두므로 여전히 깨진 상태다 — 발행 대상이 아니고,
+  고치려면 원본을 손대야 하므로 의도적으로 남겼다.
+- **제목은 동기화 스크립트가 만든다.** 원본에 프론트매터가 없어서 Quartz가 파일명을 제목으로 쓴다.
+  매크로 문서는 `08_japan_tokyo_cpi_boj` 같은 영문 스네이크케이스라 빵부스러기·탐색기·검색결과·
+  브라우저 탭이 전부 그렇게 나왔다. 이제 `<번호>. <본문 H1>` 로 생성한다.
+  **번호를 떼지 말 것** — 탐색기 정렬이 제목 문자열 기준이라 번호가 없으면 0·1·2…14 순서가 흐트러진다.
+  원본에 프론트매터를 직접 쓰면 스크립트는 그 문서를 건드리지 않는다.
 - **`ignorePatterns`에 `5_전체_개괄.md`를 넣지 말 것.** v1 제외/v2 리네임은 동기화 스크립트가 source 단계에서 처리하므로, 여기 넣으면 리네임된 v2 본문이 통째로 사라진다(실제로 한 번 사라졌다).
 - **`quartz.config.yaml`은 `quartz.config.default.yaml`을 병합이 아니라 완전 대체**한다. 플러그인 하나만 바꾸려 해도 전체 파일을 유지해야 한다.
 - **이미지**는 `post-image.valley.town` 외부 URL 그대로다(12개 로드 확인). CDN이 사라지면 깨지므로 장기 보관이 필요하면 레포 미러링을 고려.
