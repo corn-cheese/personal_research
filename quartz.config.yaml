@@ -1,6 +1,8 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: 텅스텐 조사
+  # 사이트가 두 개 이상의 조사 묶음을 담게 되어(텅스텐 조사 + 매크로 포워드) 상위 제목으로 바꿨다.
+  # 이 값은 모든 페이지 좌상단·브라우저 탭에 나오므로 섹션 이름을 쓰면 다른 섹션에서 틀린 제목이 된다.
+  pageTitle: 리서치 노트
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true

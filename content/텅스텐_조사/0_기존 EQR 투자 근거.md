@@ -1,3 +1,7 @@
+---
+title: "0. 기존 EQR 투자 근거"
+---
+
 ## Why Tungsten, Why now
 
 ![image.png](https://post-image.valley.town/1qWTTq1FCaFTQ0-UMvnzQ.png)
