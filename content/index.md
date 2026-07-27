@@ -23,4 +23,4 @@ FOMC·PCE·EIA 재고·빅테크 4사 실적·BoJ 등 8개 이벤트를 발표 �
 
 ---
 
-*이 사이트는 [Quartz](https://quartz.jzhao.xyz/)로 빌드되며, private 레포의 원본이 갱신되면 자동으로 반영됩니다.*
+*이 사이트는 [Quartz](https://quartz.jzhao.xyz/)로 빌드됩니다.*
