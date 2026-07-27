@@ -1,8 +1,48 @@
 # 배포 런북 (리서치 노트 → 공개 사이트)
 
 - 공개 레포: **`corn-cheese/personal_research`** (public)
-- 공개 수위: **A (전체 공개)** · 동기화: **① GitHub Actions 자동**
+- 공개 수위: **A (전체 공개)** · 동기화: **로컬에서 `publish.ps1` 직접 실행** (Actions 자동 동기화는 쓰지 않기로 함)
 - 검색엔진 색인: **차단(noindex)** 적용됨
+
+```
+Valley (private)  ──[publish.ps1]──▶  personal_research (public)  ──[Vercel 자동]──▶  사이트
+```
+
+Vercel은 **공개 레포를 직접** 지켜본다. 즉 push만 되면 빌드·배포는 자동이고,
+사람이 할 일은 왼쪽 구간(원본 → 공개 레포) 하나뿐이다.
+
+---
+
+## 발행하기 (평소 작업)
+
+```bash
+cd D:\Claude\tungsten-notes
+```
+
+```bash
+.\publish.ps1
+```
+
+동기화 → 변경 확인 → 커밋 → push 를 한 번에 한다. 2~3분 뒤 사이트에 반영된다.
+
+| 옵션 | 용도 |
+|---|---|
+| `-DryRun` | 무엇이 바뀌는지만 보고 커밋·push 하지 않는다 |
+| `-Build` | push 전에 로컬 Quartz 빌드로 검증한다 (실패 시 커밋 안 함) |
+| `-Message "..."` | 커밋 메시지 지정 (기본값은 `sync: 조사 문서 갱신 (시각)`) |
+| `-ValleyRoot "..."` | Valley 위치가 다를 때 |
+
+`content/` 만 스테이징하므로 `quartz.config.yaml`·`scripts/` 변경은 직접 커밋해야 한다.
+원본과 공개본이 같으면 아무것도 하지 않고 끝난다(멱등).
+
+> ⚠️ `publish.ps1` 은 **UTF-8 BOM** 으로 저장해야 한다. Windows PowerShell 5.1은 BOM이 없으면
+> `.ps1` 을 ANSI로 읽어 한글 문자열이 깨진다. 편집 후 BOM이 사라졌으면:
+> `$t=[IO.File]::ReadAllText($p,[Text.Encoding]::UTF8); [IO.File]::WriteAllText($p,$t,(New-Object Text.UTF8Encoding $true))`
+>
+> ⚠️ 스크립트에 `$ErrorActionPreference = "Stop"` 을 넣지 말 것. PS 5.1은 네이티브 exe의 stderr를
+> ErrorRecord로 감싸는데, git은 CRLF 경고·push 진행상황을 정상적으로 stderr에 쓴다.
+> Stop이면 **성공한 git 호출에도 스크립트가 죽는다**(실제로 그렇게 죽었다).
+> 대신 호출마다 `$LASTEXITCODE` 를 확인한다.
 
 ---
 
@@ -16,19 +56,24 @@
 | `content/텅스텐_조사/` | 완성 문서 15개 (0~14) + `index.md` |
 | `content/매크로_포워드_0727-0731/` | 완성 문서 9개 (00~08) + `index.md` |
 | `scripts/sync-content.mjs` | 다중 소스 선별·리네임·정규화(하이라이트/수식/형제링크/제목) |
+| `publish.ps1` | 동기화+커밋+push 한 방 스크립트 (평소 발행 수단) |
 | 공개 레포 push | **완료** |
-| Valley 워크플로 | `Valley/.github/workflows/publish-research.yml` **커밋·push 완료** |
+| Valley 워크플로 | 자동 동기화를 안 쓰기로 해서 **제거 대상** — 아래 참조 |
 
-로컬 미리보기(빌드 후 정적 서브):
+로컬에서 눈으로 확인하려면 (빌드 후 정적 서브):
 
 ```bash
-cd D:\Claude\tungsten-notes && node ./quartz/bootstrap-cli.mjs build && npx -y serve -l 8099 public
+node ./quartz/bootstrap-cli.mjs build
 ```
 
-수동 동기화(Valley 원본 → `content/`):
+```bash
+npx -y serve -l 8099 public
+```
+
+`http://localhost:8099`. 동기화만 따로 돌리려면:
 
 ```bash
-cd D:\Claude\tungsten-notes && node scripts/sync-content.mjs "D:/Claude/Financial_Reports/Valley"
+node scripts/sync-content.mjs "D:/Claude/Financial_Reports/Valley"
 ```
 
 ---
@@ -38,8 +83,9 @@ cd D:\Claude\tungsten-notes && node scripts/sync-content.mjs "D:/Claude/Financia
 두 곳을 **같이** 고쳐야 한다. 한 곳만 고치면 조용히 안 돌거나 실패한다.
 
 1. `scripts/sync-content.mjs` 의 **`SECTIONS`** — 소스 폴더 / 발행 폴더명 / exclude·rename
-2. `Valley/.github/workflows/publish-research.yml` 의 **`paths:`** 트리거 — 여기 빠지면
-   그 폴더를 고쳐도 워크플로가 아예 실행되지 않는다
+2. (자동 동기화를 되살린 경우에만) `Valley/.github/workflows/publish-research.yml` 의
+   **`paths:`** 트리거 — 여기 빠지면 그 폴더를 고쳐도 워크플로가 아예 실행되지 않는다.
+   `publish.ps1` 로 수동 발행할 때는 `SECTIONS` 만 고치면 된다.
 
 그리고 `content/<새 섹션>/index.md` 목차와 루트 `content/index.md` 허브에 링크를 추가한다.
 (섹션 폴더의 `index.md` 는 숫자로 시작하지 않으므로 동기화가 지우지 않는다)
@@ -60,24 +106,37 @@ cd D:\Claude\tungsten-notes && node scripts/sync-content.mjs "D:/Claude/Financia
 
 ---
 
-## 남은 것 — 계정 권한 필요
+## 남은 것 — Valley의 워크플로 제거
 
-### 1. 자동 동기화 켜기 (PAT 시크릿만 남았다)
+자동 동기화를 쓰지 않기로 했으므로, Valley에 커밋돼 있는 워크플로는 **지우는 게 맞다.**
+`PUBLIC_REPO_TOKEN` 시크릿이 없어서, 원본 폴더를 고쳐 Valley에 push할 때마다
+**실패한 Actions 실행과 실패 알림 메일이 쌓인다.**
 
-워크플로 파일은 커밋·push 됐다. **`PUBLIC_REPO_TOKEN` 시크릿이 없으면 워크플로가
-public 레포 체크아웃 단계에서 실패**하므로 이것만 등록하면 자동 동기화가 살아난다.
+```bash
+cd D:\Claude\Financial_Reports\Valley
+```
 
-1. **PAT 발급**: GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens**
-   - Repository access: **`personal_research` 하나만**
-   - Permissions: **Contents → Read and write**
-2. **Valley에 시크릿 등록**: `corn-cheese/Valley` → Settings → Secrets and variables → Actions
-   → New repository secret → 이름 **`PUBLIC_REPO_TOKEN`**, 값 = 위 PAT
+```bash
+git rm .github/workflows/publish-research.yml
+```
 
-> ⚠️ Valley에 커밋할 때 `git add .` 쓰지 말 것. 미커밋 상태인 조사 원본
-> (`매크로 포워드 0727-0731/`, `텅스텐 조사/docs/11~14`, `월가아재_멘토링/week4/`)이 함께 올라간다.
+```bash
+git commit -m "ci: 자동 동기화 워크플로 제거 (로컬 수동 발행으로 전환)"
+```
+
+```bash
+git push
+```
+
+> ⚠️ 여기서 **`git add .` 을 절대 쓰지 말 것.** Valley엔 미커밋 상태인 조사 원본
+> (`매크로 포워드 0727-0731/`, `텅스텐 조사/docs/11~14`, `월가아재_멘토링/week4/`)이 있어 함께 올라간다.
 > 그 문서들은 이미 공개 사이트에 반영돼 있지만, Valley 히스토리에 넣을지는 별개 판단이다.
 
-### 2. 동작 확인
+Valley에 push하기 싫으면 대신 GitHub Actions 탭에서 해당 워크플로를 `Disable` 해도 된다.
+나중에 자동화를 되살리려면 git 히스토리에서 복구한 뒤 위 PAT 시크릿을 등록하면 된다
+(fine-grained PAT, `personal_research` 하나만, Contents → Read and write).
+
+### 자동 동기화를 되살렸을 때의 동작 확인
 
 Actions → **Publish 리서치 노트 → public site** → `Run workflow`(수동 실행) 로 확인하는 게
 가장 간단하다. 성공하면 `personal_research`에 `sync:` 커밋이 생기고 Vercel이 수 분 내 재배포한다.
