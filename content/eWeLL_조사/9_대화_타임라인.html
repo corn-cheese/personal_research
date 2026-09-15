@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>eWeLL 조사 대화 타임라인</title>
+<style>
+  :root{
+    --bg:#f7f6f2; --card:#ffffff; --ink:#1d1d1b; --muted:#6b6a64; --line:#e2e0d8;
+    --me:#eef3fb; --me-ink:#1f4f9a; --cl:#ffffff; --cl-ink:#8a4a12; --accent:#1F5FBF; --warn:#D6551F;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:light}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",Roboto,sans-serif;
+    padding:24px 16px 64px}
+  main{max-width:900px;margin:0 auto}
+  h1{font-size:24px;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 28px}
+  .day{position:sticky;top:0;z-index:2;background:var(--bg);padding:8px 0 6px;margin:32px 0 10px;
+    border-bottom:1px solid var(--line);font-weight:700;font-size:14px;color:var(--accent)}
+  .day:first-of-type{margin-top:0}
+  .turn{position:relative;padding-left:22px;margin:0 0 26px}
+  .turn::before{content:"";position:absolute;left:6px;top:8px;bottom:-14px;width:2px;background:var(--line)}
+  .turn:last-child::before{bottom:0}
+  .turn::after{content:"";position:absolute;left:1px;top:6px;width:12px;height:12px;border-radius:50%;
+    background:var(--accent);border:2px solid var(--bg)}
+  .n{font-size:12px;color:var(--muted);margin:0 0 6px}
+  .q,.a{border-radius:10px;padding:12px 16px;margin:0 0 8px;border:1px solid var(--line)}
+  .q{background:var(--me)}
+  .a{background:var(--cl)}
+  .who{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:1px 8px;border-radius:999px;margin:0 0 6px}
+  .q .who{background:#d9e5f8;color:var(--me-ink)}
+  .a .who{background:#f6e6d6;color:var(--cl-ink)}
+  .q p{margin:0;white-space:pre-line}
+  .a p{margin:0 0 6px}
+  .a ul{margin:4px 0 4px 0;padding-left:20px}
+  .a li{margin:3px 0}
+  .a li::marker{color:var(--muted)}
+  b{font-weight:700}
+  .fix{color:var(--warn);font-weight:700}
+  .tw{overflow-x:auto;margin:8px 0 6px}
+  table{border-collapse:collapse;font-size:13.5px;min-width:360px}
+  th,td{border-bottom:1px solid var(--line);padding:4px 10px;text-align:left;vertical-align:top;white-space:nowrap}
+  th{color:var(--muted);font-weight:600;font-size:12.5px}
+  td.r,th.r{text-align:right}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;background:#f1efe8;padding:0 4px;border-radius:4px}
+  pre{background:#f1efe8;border-radius:8px;padding:10px 12px;overflow-x:auto;font-size:13px;line-height:1.5;margin:6px 0}
+  .out{margin-top:36px;padding:14px 16px;border:1px dashed var(--line);border-radius:10px;font-size:13.5px;color:var(--muted)}
+  .out ul{margin:6px 0 0;padding-left:20px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+<h1>eWeLL 조사 대화 타임라인</h1>
+<p class="sub">2026-09-10 ~ 09-15 · 질문과 답의 핵심만 시간순으로 · 株式会社eWeLL(東証グロース 5038, 방문간호 SaaS iBow)</p>
+
+<!-- ===================== 09-10 ===================== -->
+<div class="day">2026-09-10</div>
+
+<section class="turn">
+  <p class="n">1</p>
+  <div class="q"><span class="who">나</span>
+    <p>eWell에 대해 더 조사해보자.
+1. 일본 의료부터 시작해서 개호보험 밑의 간호보험까지 내려오는 다이어그램을 그리고, 각 다이어그램에 대응되는 회사를 찾아줘.
+2. 일본 고령화율을 조사하고, 다이어그램별 시장 상장률을 각각 조사해줘.
+→ (확인) 개호보험 전체 급여 분류까지 / 시장 성장률도 포함 / Quartz 노트 + Artifact 웹페이지</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li><b>"개호보험 밑의 간호보험"은 제도상 없음.</b> 방문간호(訪問看護)는 <b>의료보험·개호보험 양쪽에서 급여</b>되는 이중구조. 개호 통계만 보면 시장이 절반 이하로 과소평가됨.</li>
+      <li>Mermaid 5종 작성: 사회보장 2층 / 의료보험 3제도 / 개호보험 급여 MECE(居宅·地域密着型 9종·施設 3종·予防) / 방문간호 이중급여 판정 / 종합. 노드 색 = 영리법인 개설 가부. 9계층 × 100여 개사 매핑.</li>
+      <li><b>고령화율 29.3%</b>(2024.10.1). 75세 이상 2,078만이 65~74세 1,547만을 이미 추월. 2040년 34.8%, 2070년 38.7%. 단 <b>75세 이상 인구는 2040년 정점 후 감소</b>, 비율만 오름 → "고령화율 상승 = 시장 성장"은 틀린 추론.</li>
+      <li><b>상장률을 결정한 건 시장 매력도가 아니라 법인격 규제.</b></li>
+    </ul>
+    <div class="tw"><table>
+      <tr><th>계층</th><th class="r">상장률(매출 기준)</th><th>결정 요인</th></tr>
+      <tr><td>조제약국</td><td class="r"><b>약 23~24%</b></td><td>薬機法, 제한 없음</td></tr>
+      <tr><td>방문간호</td><td class="r">약 4~8% (조건부)</td><td>개설 자유, 극도로 파편화</td></tr>
+      <tr><td>지역밀착형</td><td class="r">약 3~6%</td><td>총량 규제</td></tr>
+      <tr><td>케어매니</td><td class="r">약 3%</td><td>수익성 없음</td></tr>
+      <tr><td>병원·진료소</td><td class="r"><b>0.7~1.0%</b></td><td>医療法 7조⑥, 영리 개설 불가</td></tr>
+      <tr><td>시설계(特養·老健)</td><td class="r"><b>0.0%</b></td><td>사회복지·의료법인만</td></tr>
+    </table></div>
+    <ul>
+      <li><b>비상장화 연쇄</b>: ニチイ(日本生命이 2024.6 약 2,100억엔에 인수, 상호회사라 비상장), ツクイ, ベネッセ, 日本調剤(2025.12.19), セントケア(2025.12). 日本調剤 한 건으로 약국 상장률 28.9% → 24.9%.</li>
+      <li><b>성장률 1위는 방문간호</b>: 訪問看護医療費 <b>+23.6%</b>(국민의료비 전체 +3.0%), 사업소 수 +9.9%(訪問介護 +1.0%, 通所介護 0.0%). 총시장 약 +14~16%.</li>
+      <li>신뢰도: 1차 출처(mhlw·e-Stat 등) 직접 열람이 403 차단 → 검색 스니펫 교차대조, 모든 수치에 A~D 등급. 개호 서비스 종별 금액 분해표는 미취득(공란 유지).</li>
+      <li>감사에서 잡힌 수정: 방문간호 상장률은 アンビス·CUC 연결매출 그대로면 10.5% → <span class="fix">귀속 안분 후 4~8%</span>. ケア21 티커 6050 → <span class="fix">2373·10월기</span>.</li>
+      <li>eWeLL FY2025: 매출 33.92억엔, OP 15.37억엔, OPM 45.3%, 3,501개소. ARPU 역산 월 약 89,700엔(신중계 목표 104,200엔).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 09-13 ===================== -->
+<div class="day">2026-09-13</div>
+
+<section class="turn">
+  <p class="n">2</p>
+  <div class="q"><span class="who">나</span>
+    <p>1. 방문간호가 왜 다른 개호 서비스보다 크게 증가했는지 조사
+2. 의료보험 구조를 다이어그램으로 만들고, 방문간호가 어디에 위치하는지 설명
+3. 시장성장 근거가 어디에서 도출되었는지 → 믿을만한 자료인지?
+(+ 서브에이전트: 사실조사는 sonnet, 복잡한 작업은 opus. Fable 사용 금지)</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li><b>"고령화 수요"는 절반만 설명.</b> 이용자 수는 의료·개호 모두 연 +10%인데, 금액은 <b>의료보험 쪽만 연 +18~24%</b>. 실체는 "의료보험 방문간호가 성장했다".</li>
+      <li>제도 요인: 의료보험 방문간호는 개호 <b>区分支給限度額 대상 외</b>. 別表7·특별지시서·정신과라는 합법적 전환 경로가 이용자·케어매니·스테이션 셋 다에게 유리.</li>
+      <li>자기부담: 정신과는 自立支援医療로 3할 → 1할·월 상한 → 公費 정신과 방문간호 10년 5.6배.</li>
+      <li>자유 진입: 간호사 2.5명이면 개설. 영리법인 비율 32.6%(2012) → 64.0%(2025).</li>
+      <li>규제가 그 지점을 겨냥: サンウェルズ 부정청구 약 28.47억엔(2025.2), 厚労省 전국 일제 현지조사(2026.1~, 최초), 2026 개정 包括型訪問看護療養費.</li>
+      <li><b>위치</b>: 방문간호는 診療報酬点数表 바깥. 訪問看護療養費는 별도 告示(第67号)로 円 단위, 별도 명세서 청구. 병원 직접 방문은 医科診療医療費, 스테이션은 「訪問看護医療費」 → +23.6%는 후자만. 자금흐름·보수체계·限度額 비대칭 다이어그램 3장 작성.</li>
+      <li><b>출처 감사</b>: 핵심 근거 3개는 1차 통계·A등급. 8개년 계열 1,485억엔(2015) → 5,727억엔(2023), 매년 +16~24% → 일회성 아님. 검색 요약의 "+1.0%"는 구성비 오인. 총시장 "+15~20%"는 상단 과장 → <span class="fix">"약 +14~16%"</span>로 정합화. 스테이션 "+8.8%" 보도자료 발신자는 eWeLL 자신. 定期巡回 54만은 年間累計·별개 카테고리라 제외.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 09-14 ===================== -->
+<div class="day">2026-09-14</div>
+
+<section class="turn">
+  <p class="n">3 · 00:48</p>
+  <div class="q"><span class="who">나</span>
+    <p>1. 包括型訪問看護療養費 이게 뭔데
+2. 区分支給限度額 이건 또 뭐고
+3. 전환경로를 더 디테일하게 설명해
+4. 지금 왜 성장했는지는 아직 설명이 안됐는데?</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li><b>包括型</b>: 2026년 6월 신설. 유료노인홈·사고주에 병설·인접한 스테이션이 別表7·8·특별지시서 대상 입주자를 24시간 빈회 방문할 때 <b>하루당 정액</b>. 20명 미만 7,010 / 11,010 / 14,010円, 50명 이상 5,960 / 9,360 / 13,450円. 出来高는 1회 ≈ 8,550円, 하루 3회 + 가산이면 2만~2.5만엔 → 천장을 씌운 것. 독립형 스테이션(eWeLL 고객 대부분)은 직접 영향권 밖.</li>
+      <li><b>区分支給限度基準額</b>: 요개호도별 월 급여 상한. 要支援1 5,032 → 要介護5 36,217단위(≈36.2만엔). 초과분 10할 자기부담. 개호보험 방문간호 1회 8~9천엔 → 주 3회면 한도의 30%가 잠김. 의료보험으로 빠지면 한도 밖 → 셋 다 유리.</li>
+      <li><b>전환 경로</b>: 40세 미만 / 40~64세 16特定疾病 아님 / 요개호 인정 없음 / 別表7(20질환, 週4日↑·1日 복수회·한도 밖) / 特別訪問看護指示書(최대 14일, 월 1회, 매월 발급 시 사실상 상시) / 精神科指示書(퇴원 3개월 週5回, 自立支援 1할) → 의료보험. 別表7 9번에 パーキンソン病 Yahr 3↑ → "PD하우스 + 병설 스테이션" 구조.</li>
+      <li>4번은 지적이 맞음. 別表7·限度額·영리 진입은 2000년대부터 있던 조건이라 가속을 설명 못함. 가설(2013~18 정신과 체인·호스피스형 주택 등장이 방아쇠)을 세우고 opus 검증에 넘김.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="turn">
+  <p class="n">3′ · 01:22 (검증 결과 반영)</p>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li><span class="fix">가설 부분 기각.</span> "2015년 이후 급성장"은 없음. 2013년도 1,086억엔부터 이미 연 +17%로 성장(2013→15 +16.9%, 2015→18 +16.6%, 2018→23 +19.5%). 가속은 2018년 이후 <b>+2.9%p뿐</b>. 설명 대상을 7배 과대 설정했었음.</li>
+      <li>항등식 실측 분해(2018→2023):</li>
+    </ul>
+    <pre>訪問看護医療費 = 스테이션 수 × 스테이션당 이용자 × 이용자당 청구액
+   +19.5%     =    +7.6%    ×      +2.6%       ×      +8.2%</pre>
+    <ul>
+      <li>증가분 3,372억엔은 이용자 증가와 1인당 청구 증가가 <b>대략 반반</b>(초판 45:55 → 교차항 귀속에 따라 56:44 → "대략 반반"으로 정정 커밋).</li>
+      <li>1인당 청구 월 19.9만 → 29.6만엔(×1.485)인데 단가표 인상은 5년 누적 2% 미만 → 원인은 <b>방문 빈도·복수명·가산 적산과 중증 케이스 구성 변화</b>.</li>
+      <li>5층 인과 사슬: ① 상수 조건(出来高·別表7·한도 밖·2.5명·영리) 기여 0 → ② 구조적 추세, 이용자 +10.4%/년 → ③ 1인당 청구(2012·2014·2018 개정이 청구 구조 변경, 가산 적산 확산) → ④ 증폭기 호스피스형 주택(2019 IPO 이후, 변곡점보다 뒤, 증가분의 7~15%) → ⑤ 사후 규제(2024·2026).</li>
+      <li>틀렸던 곳: 정신과 성장률 +18.8% = 전체 +18.4% → 동인이 아니라 동행. サンウェルズ 28억엔은 증가분의 0.84% → 병리의 존재 ≠ 성장의 동인.</li>
+      <li>연 청구 2.5억엔 이상 초고액 스테이션 2018→23 <b>+1,280%</b>(통상 +122%, 中医協).</li>
+      <li>반증 조건: 2026 包括型 이후 증가율이 한 자릿수로 급락하면 "증폭기 10%"가 과소였던 것. 2026년도 데이터는 2028년 공표.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="turn">
+  <p class="n">4 · 05:28</p>
+  <div class="q"><span class="who">나</span>
+    <p>아티팩트 만들지말고 채팅으로만 이제 대답. 精神科基本療養費(Ⅱ) 폐지하고 개별산정이 청구구조 바꿨다는게 뭔소리임? 그건 2026까지 이어지는 트렌드야?
+곱셈의 세 축을 하나씩 뜯어서 지금도 이어지는지, 그 축의 드라이버가 이어지려면 뭐가 가장 중요한지 분석해</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li><b>(Ⅱ) 폐지</b>: 장애복지시설 입소자를 여러 명 한꺼번에 방문하면 1일당 약 1,600円 정액이던 유형이 2018년 4월 폐지 → 같은 사람·같은 시간이라도 (Ⅰ) 1회 5,550円으로 <b>한 명씩 개별 청구</b>. 서비스 양이 아니라 세는 단위가 바뀐 것. 크기는 미정량.</li>
+      <li>트렌드 아님. <b>일회성 레벨 시프트(계단)</b>, 2019년 이후 성장률 기여 0.</li>
+    </ul>
+    <div class="tw"><table>
+      <tr><th>축</th><th>지금 이어지나</th><th>핵심 변수</th><th>2026년 이후</th></tr>
+      <tr><td>① 스테이션 수 +7.6%</td><td><b>예</b> (2025.4 18,753, +8.2%, 15년 연속. 신규·폐지 둘 다 역대 최다)</td><td>간호사 노동 공급 (병원→재택 이동)</td><td>완만 둔화</td></tr>
+      <tr><td>② 스테이션당 이용자 +2.6%</td><td><b>아니요</b> (원래 정체, 의료보험 스테이션당 월 9명)</td><td>소규모 퇴출 → 생존자 효과</td><td>규제로 오히려 상승 가능</td></tr>
+      <tr><td>③ 이용자당 청구 +8.2%</td><td><b>예, 2025년까지</b>. 2026.6부터 처음 직접 규제</td><td>出来高 유지 여부 = 2028 개정에서 包括型 독립형 확장 여부</td><td>단가표 +3.09% vs 병설 가산 삭감 → 하향</td></tr>
+    </table></div>
+    <ul>
+      <li>③의 네 조각: 단가표(2026 본체 +3.09%, 커짐) / 빈회·복수명·가산 적산(包括型으로 깎임) / 케이스 구성 중증화(지속) / 개호→의료 계정 이동(限度額 구조 유지, 지속).</li>
+      <li>①은 규제 밖, ②는 부산물, ③만 정책이 쥔 축. 확인 시점: 2026.10 국민의료비 令和6, 2027 하반기 中医協 2028 개정 논의.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="turn">
+  <p class="n">5 · 10:31</p>
+  <div class="q"><span class="who">나</span>
+    <p>이것보다 top단이 더 중요할 것 같은데, 방문간호 수요와 의료비 공표를 봐줘. 정치나 노인수 때문에 어쩔수없이 늘수밖에 없는 구조인지? 3가지 축은 그것의 부산물인 거 같아</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li><b>노인 수는 강제하지 않음. 정치는 방향을 강제하고 크기를 제한.</b> 3축의 부호·허용범위는 top-down이 정했지만, 크기(+18%)는 위에서 원한 +5~8%를 초과했고 지금 되돌리는 중.</li>
+      <li>인구: 75세↑ 연 +0.45%(2024→2040), 85세↑ +2.3%, 요개호자 723만 +2~3%, 방문간호 이용자 약 85만 +10%. 침투율 약 12%. 이용자 +10% 중 인구는 +2~3%p, 나머지 +7~8%p는 침투율 상승.</li>
+      <li>재정: 骨太2026 사회보장비 억제 + 사회보장 부담률 목표. 방문간호는 정부에게 "입원의 싼 대체재" → <b>기본 단가를 한 번도 깎인 적 없음</b>(訪問介護 2024 −2.3%와 대조). 그러나 병상 삭감은 수%, 入院医療費 +2% → 대체가 아닌 순증 → 適正化.</li>
+      <li>정치적 방패 약함: 中医協에 日本看護協会는 정식 위원 아님 → 2024→2026 규제가 이례적으로 빠름.</li>
+      <li>정량: 어쩔 수 없는 부분 = 인구 +2~3% + 정책적 대체 +3~5% = <b>연 +5~8%</b>. 나머지 +10~13%p는 재량과 틈 → 규제 대상. 3축은 부산물이 맞지만 <b>top-down이 되돌릴 수 있는 부산물</b>.</li>
+      <li>"방문간호는 정치가 죽이지 않는 세그먼트이지 키워주는 세그먼트가 아님." eWeLL: 스테이션·이용자 수 +5~8%는 하한으로 보장, ベア評価料 780→1,050円은 지불여력 순풍.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="turn">
+  <p class="n">6 · 10:42</p>
+  <div class="q"><span class="who">나</span>
+    <p>2040까지 투자할거 아님. 향후 3~5년만 봐. 인구통계 기준으로 향후 3~5년 top단 증가율 예측. 되돌릴 수 있는 부산물의 변동성과 core를 분리해서 성장률 예측해봐</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li>실측(2024.10 → 2025.9): 65~74세 <b>−3.7%</b>, 75세↑ +2.4%, 요개호자 +1.9%, 85세↑ +3~4%(団塊 진입은 2032년부터 → 3~5년 창 밖), 사망자 +0.5%.</li>
+      <li>연령 가중 → <b>인구가 강제하는 top단 증가율은 연 +1.0%</b>(의료보험 이용자 풀, 0.5~1.5), 요개호자 기준 +2%. 인구성장 시장이 아니라 침투 시장.</li>
+    </ul>
+    <div class="tw"><table>
+      <tr><th>FY (의료보험분)</th><th class="r">core</th><th class="r">부산물</th><th>합계 하한 / 중심 / 상한</th></tr>
+      <tr><td>2026</td><td class="r">+10.8</td><td class="r">−1.4</td><td>−1.6 / <b>+9.3</b> / +16.7</td></tr>
+      <tr><td>2027</td><td class="r">+8.2</td><td class="r">+1.4</td><td>+4.3 / +9.7 / +15.4</td></tr>
+      <tr><td>2028</td><td class="r">+9.0</td><td class="r">+1.0</td><td>+1.4 / +10.1 / +17.2</td></tr>
+      <tr><td>2029</td><td class="r">+6.9</td><td class="r">+1.7</td><td>+3.5 / +8.7 / +14.7</td></tr>
+      <tr><td>2030</td><td class="r">+7.8</td><td class="r">+1.0</td><td>+1.7 / +8.8 / +16.1</td></tr>
+      <tr><td><b>FY25→30 CAGR</b></td><td class="r"><b>+8.5</b></td><td class="r"><b>+0.7</b></td><td>+1.9 / <b>+9.3</b> / +16.0</td></tr>
+    </table></div>
+    <ul>
+      <li>core 구성: 인구 +1.0 / 구조적 침투 +5.5 → +3.5(간호사 공급 제약) / 단가표 톱니 / 케이스믹스 +1.7 → +1.3.</li>
+      <li>부산물: 2026.6 개정은 성장률이 아니라 레벨을 <b>일회성 −4.3%</b>(−2.2~−7.4) 깎고, 이후 풍선효과 +1~3%/년.</li>
+      <li><b>총시장(의료+개호) CAGR +7.9%</b>(2.4~13.2). 개호분은 限度額이 가산 적산을 막아 +4.5~6.5%.</li>
+      <li>변동성: 1위 침투 감쇠 속도 ±5%p/년(간호사 연 +8,500명 필요) / 2위 2028 包括型 독립형 확장(확률 45~60%) 레벨 ±10% / 인구는 ±0.5%p.</li>
+      <li>한 줄: <b>3~5년 연 +8~10%, 과거의 절반.</b> 인구가 주는 건 +1%, core 본체는 간호사 공급이 허용하는 침투(+4~5%), 마이너스는 하한 시나리오의 FY2026 한 해뿐.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="turn">
+  <p class="n">7 · 12:14</p>
+  <div class="q"><span class="who">나</span>
+    <p>연평균 10프로 성장 시장이고, eWeLL이 아직 더 개척할 시장이 많이 남았는지 조사. 20% 점유율인데 남은 80프로가 빈땅인지, 아직도 점유할 곳이 많은지. 경쟁사 IR, eWeLL IR, 정부 발표 등으로 조사</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li>정정: 18.7%는 분자·분모 시점이 8개월 어긋난 과대치 → 동시점 <span class="fix">17.8%</span>, 회사 자체 조사 2026.4.1 기준 3,633 / 20,051 = 18.1%. 분모 증가율 +8.2% → +6.9% 감속.</li>
+    </ul>
+    <div class="tw"><table>
+      <tr><th>셀 (전국 18,753개소)</th><th class="r">개소</th><th class="r">비중</th></tr>
+      <tr><td>eWeLL (iBow)</td><td class="r">3,501</td><td class="r">18.7%</td></tr>
+      <tr><td>경쟁사, 고착 (カイポケ 4,800 + 종합소프트 병영)</td><td class="r">6,420</td><td class="r"><b>34%</b></td></tr>
+      <tr><td>경쟁사, 전환 가능</td><td class="r">2,680</td><td class="r">14%</td></tr>
+      <tr><td>빈땅 (종이·엑셀·무료)</td><td class="r">2,852</td><td class="r"><b>15%</b></td></tr>
+      <tr><td>구조적 비접근 (병원 EHR·대형체인·조합)</td><td class="r">3,300</td><td class="r">18%</td></tr>
+    </table></div>
+    <ul>
+      <li><b>잔여 15,252개소 중 경쟁사 60% / 비접근 22% / 진짜 빈땅 19%.</b> 빈땅도 카이포케(월 25,000円 정액, 累計 7,000건·전국 1/3↑)가 선점 중: 온라인 청구 의무화 구간 カイポケ 월 +71 vs iBow 월 +41~44.</li>
+      <li>flow: 신규 개설 2,487(2025, 최고), 폐지 886. eWeLL gross 670, 순증 +473, 손실 197 = 6.5%/년 ≈ 업계 폐지율 5.7% → 이탈은 경쟁 전환이 아닌 고객 폐업. 신규 개설 획득률 ≈ 19.4% = 스톡 점유율 → 점유율은 유지될 뿐, 상승은 +0.3~0.9%p/년.</li>
+      <li>가격: iBow 18,000 + 100円/방문(2년 계약) vs カイポケ 25,000 정액. 손익분기 70건/월. 업계 평균 264건이면 iBow 44,400円 = 1.8배. 실질 SAM 2,800~3,600개소.</li>
+      <li>스테이션 시나리오 2030: 하한 4,481(19.4%) / 중심 <b>5,853(23.6%, CAGR +10.8%)</b> / 상한 7,952. 신중계 2028 목표 4,882는 중심 안.</li>
+      <li>성장은 점유율이 아니라 ARPU: 신중계 ARPU 110,300円 = 코어 70,500 + 옵션 39,800(옵션 침투 25% → 45%). 종량제라 시장 +8~9%면 가격 인상 0으로 ARPU 5년 +7~12%.</li>
+      <li>판정: <b>빈땅은 잔여의 1/5 미만, 2강 분할은 끝남.</b> 남은 성장 = 시장 +8~9% × 방문건수 자동 흡수 × 옵션 침투. 시총 329억엔·PER 24.6·PSR 9.7(2026.9.7).</li>
+    </ul>
+  </div>
+</section>
+
+<section class="turn">
+  <p class="n">8 · 17:11</p>
+  <div class="q"><span class="who">나</span>
+    <p>1. 냉정하게 연평균 매출 성장률이 얼마정도 될까?
+2. 매출 성장이 더뎌도 마진이 올라가면 되는데, 최근 마진율이 괜찮아지는 듯. 마진율의 드라이버와 앞으로의 마진율은?
+3. 1·2를 통합해 순이익 연평균 성장률 추정</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <ul>
+      <li><b>매출 CAGR(FY25→30) +16~17%</b>(범위 +11~+22). 회사 신중계 +21.9%, 모델 중심 +18.6%보다 낮게 봄. 이유: 감속이 이미 실적에 찍힘(+31.9% → 1Q +26.5% → H1 +24.2%), 스테이션 순증이 절대수로 정체(연 +470~530), ARPU 목표 미달(90,300 → 88,800). 산식: 스테이션 +10~11% × ARPU +5~6%.</li>
+    </ul>
+    <div class="tw"><table>
+      <tr><th></th><th class="r">FY23</th><th class="r">FY24</th><th class="r">FY25</th><th class="r">FY26 1Q</th><th class="r">FY26 H1</th></tr>
+      <tr><td>매출(억엔)</td><td class="r">20.7</td><td class="r">25.7</td><td class="r">33.9</td><td class="r">9.5</td><td class="r">19.9</td></tr>
+      <tr><td>원가율</td><td class="r">—</td><td class="r">27.5%</td><td class="r">29.3%</td><td class="r">25.0%</td><td class="r">—</td></tr>
+      <tr><td>판관비율</td><td class="r">—</td><td class="r">28.3%</td><td class="r">25.4%</td><td class="r">29.5%</td><td class="r">—</td></tr>
+      <tr><td><b>OPM</b></td><td class="r">43.9%</td><td class="r">44.2%</td><td class="r"><b>45.3%</b></td><td class="r">45.5%</td><td class="r">47.5%</td></tr>
+    </table></div>
+    <ul>
+      <li>FY24→25 +1.1pp = <b>판관비 레버리지 +2.9pp</b>(판관비 +18.3% vs 매출 +31.9%) − <b>원가율 악화 −1.8pp</b>(그중 BPaaS 믹스 −1.2pp). 마진 개선의 실체는 고정비 위에 매출을 얹은 것이지 단위경제 개선이 아님. 계절성 H1 47~49% / H2 약 42%. FY26 H1은 전년 동기 대비 −1.6pp, 상장 후 첫 YoY 하락.</li>
+      <li>전망: 회사 가이던스 FY26 45.05%, 신중계 FY28 45.3% = 유지 계획(레버리지 전액 재투자). FY30 OPM 하한 40 / <b>중심 46</b> / 상한 50. 브리지: 레버리지 +5.0, 클라우드·AI 믹스 +3.3, BPaaS 믹스 −2.5, 인건비 −1.7, S&M·투자·AI 원가 −3.0. 소프트웨어 자산화 규모는 미확인.</li>
+      <li><b>순이익 CAGR +15~17%</b>(범위 +8~+29). 세율 29.6% → 30.8%(FY27~ 防衛特別法人税). NI FY25 10.9 → FY30 중심 22.5억엔(+15.6%), 하한 15.7(+7.6%), 상한 39.3(+29.3%). 순이익의 시나리오 폭(2.5배)이 매출 폭(1.9배)보다 넓음 → 리스크는 마진 쪽.</li>
+      <li>PER 24.6에 EPS +15%면 <b>PEG ≈ 1.6</b>, 회사 목표(+22%)를 믿으면 1.1.</li>
+      <li>한 줄: <b>매출 +16~17%, 마진 45~46% 횡보, 순이익 +15~17%.</b> 매출 감속을 마진으로 메우는 시나리오는 회사 계획에도 추정에도 없음. 먼저 볼 숫자는 FY26 H2 OPM(가이던스 내포 42.9%)과 AI 옵션 유료 200건.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 09-15 ===================== -->
+<div class="day">2026-09-15</div>
+
+<section class="turn">
+  <p class="n">9</p>
+  <div class="q"><span class="who">나</span>
+    <p>좋아. 지금까지 모든 대화를 대화 순서대로 정리한 하나의 html 파일로 만들어줘. 너와 내가 한 대화의 핵심만 시간순으로 나열해서.</p>
+  </div>
+  <div class="a"><span class="who">Claude</span>
+    <p>이 파일.</p>
+  </div>
+</section>
+
+<div class="out">
+  <b>산출물</b>
+  <ul>
+    <li>Quartz 노트: <code>content/eWeLL_조사/</code> 문서 0~8 (조사방법 / 계층 다이어그램 / 대응기업 / 고령화율 / 상장률·성장률 / eWeLL 포지셔닝 / 왜 혼자 성장했는가 / 의료보험 자금흐름 / 출처 신뢰성), 브랜치 <code>claude/ewell-japan-healthcare-research-hpct0v</code></li>
+    <li>Artifact v4: <a href="https://claude.ai/code/artifact/09681bd9-b098-4762-925d-9ee74f9bc98c">claude.ai/code/artifact/09681bd9-…</a> (4번 이후 답변은 채팅 전용)</li>
+  </ul>
+</div>
+</main>
+</body>
+</html>
