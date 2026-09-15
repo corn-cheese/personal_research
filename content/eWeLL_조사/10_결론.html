@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>eWeLL 조사 결론</title>
+<style>
+  :root{
+    --bg:#f7f6f2; --card:#ffffff; --ink:#1d1d1b; --ink2:#52514e; --muted:#6b6a64; --line:#e2e0d8; --grid:#e8e6df;
+    --accent:#1F5FBF; --warn:#D6551F; --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --gray:#898781;
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:light}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",Roboto,sans-serif;
+    padding:24px 16px 64px}
+  main{max-width:940px;margin:0 auto}
+  h1{font-size:25px;margin:0 0 4px;letter-spacing:-.01em}
+  h2{font-size:17px;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);color:var(--accent)}
+  h3{font-size:14.5px;margin:14px 0 6px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 12px}
+  .hero{font-size:16px;line-height:1.7;margin:0 0 12px}
+  .hero b{font-weight:700}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 4px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .tile .l{font-size:12.5px;color:var(--muted)}
+  .tile .v{font-size:30px;font-weight:600;line-height:1.15;margin:2px 0}
+  .tile .d{font-size:12.5px;color:var(--ink2)}
+  @media (max-width:640px){.kpi{grid-template-columns:1fr 1fr}.tile:last-child{grid-column:1/-1}}
+  ul{margin:4px 0 4px;padding-left:20px}
+  li{margin:4px 0}
+  li::marker{color:var(--muted)}
+  .pt li{margin:8px 0}
+  .src{color:var(--muted);font-size:12.5px}
+  .fix{color:var(--warn);font-weight:700}
+  .tw{overflow-x:auto;margin:6px 0}
+  table{border-collapse:collapse;font-size:13.5px;min-width:420px;width:100%}
+  th,td{border-bottom:1px solid var(--line);padding:5px 9px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:12.5px;white-space:nowrap}
+  td.r,th.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  tr.tot td{font-weight:700;border-top:2px solid var(--line)}
+  td.mid{font-weight:700}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;background:#f1efe8;padding:0 4px;border-radius:4px}
+  /* diagrams */
+  .fig svg{width:100%;height:auto;display:block}
+  .fig .cap{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+  .bx{fill:#fff;stroke:#c9c7bf;stroke-width:1}
+  .med{fill:#eaf2fc;stroke:#2a78d6}.kai{fill:#e9f7f0;stroke:#1baf7a}.hk{fill:#fff4e8;stroke:#eb6834;stroke-width:1.5}.ew{fill:#fbeaf1;stroke:#e87ba4;stroke-width:1.5}.gr{fill:#f3f2ee;stroke:#c9c7bf}
+  .t{font-size:13px;fill:#1d1d1b}.b{font-weight:700}.s{font-size:11.5px;fill:#6b6a64}.big{font-size:14px;font-weight:700}
+  .ar{stroke:#8f8d85;stroke-width:1.5;fill:none;marker-end:url(#ah)}
+  .ard{stroke:#8f8d85;stroke-width:1.5;fill:none;stroke-dasharray:4 3;marker-end:url(#ah)}
+  .rate{font-size:12.5px;font-weight:700;fill:#1F5FBF}
+  .neg{fill:#D6551F}
+  /* charts */
+  .charts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  @media (max-width:760px){.charts{grid-template-columns:1fr}}
+  .ch{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 10px 6px;position:relative}
+  .ch .ttl{font-size:13.5px;font-weight:700;margin:0 4px 2px}
+  .ch .lg{display:flex;gap:12px;font-size:12px;color:var(--ink2);margin:0 4px 4px;flex-wrap:wrap}
+  .lg i{display:inline-block;vertical-align:middle;margin-right:5px}
+  .lg .ln{width:16px;height:2px;border-radius:1px}
+  .lg .wash{width:14px;height:10px;border-radius:2px;opacity:.28}
+  .ch svg{width:100%;height:auto;display:block}
+  .ch .ax{font-size:11px;fill:#898781}
+  .ch .gl{stroke:#e8e6df;stroke-width:1}
+  .ch .bl{stroke:#c3c2b7;stroke-width:1}
+  .ch .lab{font-size:11.5px;fill:#1d1d1b;font-weight:600}
+  .ch .lab2{font-size:11px;fill:#6b6a64}
+  .tip{position:absolute;pointer-events:none;background:#1d1d1b;color:#fff;font-size:12px;line-height:1.45;padding:6px 9px;border-radius:6px;white-space:nowrap;opacity:0;transition:opacity .08s;z-index:3}
+  .hit{fill:transparent;cursor:crosshair}
+  .hit:focus{outline:none}
+  .cur{stroke:#c3c2b7;stroke-width:1;opacity:0}
+  .note{font-size:13px;color:var(--ink2)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cols>.card,.charts>.ch{min-width:0}
+  .cols table{min-width:300px}
+  @media (max-width:700px){.cols{grid-template-columns:1fr}}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+<h1>eWeLL 조사 결론</h1>
+<p class="sub">2026-09-10 ~ 09-15 대화(9턴)와 문서 0~8을 근거로 · 株式会社eWeLL(東証グロース 5038, 12월 결산, 방문간호 SaaS iBow) · 금액 단위 億円</p>
+
+<div class="card">
+  <p class="hero">
+    <b>방문간호 시장은 인구가 아니라 정책이 여는 침투 시장이고, 향후 3~5년 성장률은 과거의 절반(연 +8~10%)으로 감속하되 core가 바닥을 받친다.</b>
+    남은 80%는 빈땅이 아니라 대부분 경쟁사와 비접근 영역이므로 eWeLL의 점유율 상승은 연 +1%p 안팎이 천장이고, 성장은 <b>종량제 ARPU(+5%/년)</b>에서 나온다.
+    그 결과 <b>매출 연 +17%, 영업이익률 45% 횡보(U자), 순이익 연 +16~17%</b>가 중심이며, 현재 PER 24.6배(PEG ≈ 1.6)는 이 중심 시나리오를 이미 대부분 반영한 가격이다.
+    3~5년 창의 단일 최대 리스크는 <b>2028년 개정에서 包括型이 독립형 스테이션까지 확장되는가</b>(확률 45~60%)이며, 발생 시 하한 시나리오(순이익 연 +4%)가 중심이 된다.
+  </p>
+  <div class="kpi">
+    <div class="tile"><div class="l">매출 CAGR FY25→30 (중심)</div><div class="v">+17.1%</div><div class="d">하한 +6.7 / 상한 +23.0 · 33.9 → 74.8억엔</div></div>
+    <div class="tile"><div class="l">순이익 CAGR FY25→30 (중심)</div><div class="v">+16.5%</div><div class="d">하한 +3.7 / 상한 +24.9 · 10.9 → 23.4억엔</div></div>
+    <div class="tile"><div class="l">영업이익률 FY2030 (중심)</div><div class="v">45.0%</div><div class="d">하한 40 / 상한 50 · 경로는 U자, 저점 44.0%(FY28)</div></div>
+  </div>
+</div>
+
+<h2>1. 구조 — 일본 사회보장 안에서 방문간호와 eWeLL의 위치</h2>
+<div class="card fig">
+<svg viewBox="0 0 900 470" role="img" aria-label="일본 사회보장 제도 안에서 방문간호와 eWeLL의 위치">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8f8d85"/></marker></defs>
+<rect class="bx gr" x="330" y="10" width="240" height="40" rx="8"/>
+<text class="t big" x="450" y="35" text-anchor="middle">일본 사회보장 (社会保障)</text>
+<rect class="bx med" x="60" y="90" width="340" height="86" rx="8"/>
+<text class="t b" x="230" y="112" text-anchor="middle">① 의료보험 医療保険</text>
+<text class="t" x="230" y="132" text-anchor="middle">国民医療費 48조 915억엔 (2023년도, +3.0%)</text>
+<text class="s" x="230" y="150" text-anchor="middle">병원·진료소 상장률 0.7~1.0% (医療法 7조⑥) · 약국 23~24%</text>
+<text class="s" x="230" y="166" text-anchor="middle">방문간호는 診療報酬点数表 밖 · 訪問看護療養費 (告示 67호, 円 단위)</text>
+<rect class="bx kai" x="500" y="90" width="340" height="86" rx="8"/>
+<text class="t b" x="670" y="112" text-anchor="middle">② 개호보험 介護保険</text>
+<text class="t" x="670" y="132" text-anchor="middle">介護費用額 11조 9,381억엔 (2024년도, +3.7%)</text>
+<text class="s" x="670" y="150" text-anchor="middle">시설계 상장률 0.0% · 지역밀착형 3~6% · 케어매니 약 3%</text>
+<text class="s" x="670" y="166" text-anchor="middle">재택계는 区分支給限度額 (要介護5 36,217단위) 안에서 배분</text>
+<path class="ar" d="M420 50 L240 88"/><path class="ar" d="M480 50 L660 88"/>
+<rect class="bx hk" x="150" y="216" width="600" height="96" rx="8"/>
+<text class="t big" x="450" y="240" text-anchor="middle">방문간호 訪問看護 — 양쪽에서 급여되는 이중구조</text>
+<text class="t" x="300" y="264" text-anchor="middle">의료보험분 5,727억엔 (2023년도, +23.6%)</text>
+<text class="s" x="300" y="282" text-anchor="middle">別表7·특별지시서·정신과 → 限度額 밖 · 出来高 · 週4日↑</text>
+<text class="s" x="300" y="298" text-anchor="middle">10년 계열 1,086 → 5,727억엔, 매년 +16~24%</text>
+<text class="t" x="600" y="264" text-anchor="middle">개호보험분 (이용자 약 69만, 限度額 안)</text>
+<text class="s" x="600" y="282" text-anchor="middle">개호보험 우선 원칙 · 예외 사유 시 의료보험으로 전환</text>
+<text class="s" x="600" y="298" text-anchor="middle">총시장 약 1조엔 (등급 C) · 최근 성장 약 +14~16%</text>
+<path class="ard" d="M230 176 L330 214"/><path class="ard" d="M670 176 L570 214"/>
+<line x1="450" y1="252" x2="450" y2="306" stroke="#e8c9b2" stroke-width="1"/>
+<rect class="bx" x="150" y="346" width="600" height="46" rx="8"/>
+<text class="t b" x="450" y="365" text-anchor="middle">訪問看護ステーション 18,753개소 (2025.4, +8.2%) · 영리법인 64% · 간호사 2.5명이면 개설</text>
+<text class="s" x="450" y="383" text-anchor="middle">신규 개설 2,487 / 폐지 886 (2025) · 스테이션당 의료보험 이용자 월 약 9명 (10년 정체)</text>
+<path class="ar" d="M450 312 L450 344"/>
+<rect class="bx ew" x="60" y="422" width="270" height="40" rx="8"/>
+<text class="t b" x="195" y="439" text-anchor="middle">eWeLL iBow 3,501개소 · 17.8~18.7%</text>
+<text class="s" x="195" y="455" text-anchor="middle">종량제 18,000 + 100円/방문 · ARPU 약 89,700円</text>
+<rect class="bx gr" x="345" y="422" width="270" height="40" rx="8"/>
+<text class="t b" x="480" y="439" text-anchor="middle">カイポケ 累計 7,000건 (2026.2)</text>
+<text class="s" x="480" y="455" text-anchor="middle">월 25,000円 정액 · 의무화 구간 월 +71개소</text>
+<rect class="bx gr" x="630" y="422" width="210" height="40" rx="8"/>
+<text class="t b" x="735" y="439" text-anchor="middle">종이·기타 벤더·비접근</text>
+<text class="s" x="735" y="455" text-anchor="middle">빈땅 15% · 구조적 비접근 18%</text>
+<path class="ar" d="M400 392 L220 420"/><path class="ar" d="M460 392 L470 420"/><path class="ar" d="M520 392 L700 420"/>
+</svg>
+<p class="cap">상장률은 시장 매력도가 아니라 법인격 규제가 결정했고(병원 0.7~1.0% vs 약국 23~24%), 방문간호는 개설이 자유로운 대신 극도로 파편화된 층이다. eWeLL은 급여 바깥의 ICT 레이어에서 그 파편화를 고객 모수로 삼는다. (문서 1·2·4·5, 09-10)</p>
+</div>
+
+<h2>2. 성장 사슬 — top단에서 eWeLL 순이익까지</h2>
+<div class="card fig">
+<svg viewBox="0 0 900 560" role="img" aria-label="top-down에서 eWeLL 순이익까지의 성장 사슬">
+<defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8f8d85"/></marker></defs>
+<rect class="bx gr" x="40" y="10" width="560" height="52" rx="8"/>
+<text class="t b" x="56" y="31">인구 (top단)</text>
+<text class="s" x="56" y="50">75세↑ +2.4% · 65~74세 −3.7% · 요개호자 +1.9% · 85세↑ 급증은 2032년 이후 → 3~5년 창 밖</text>
+<text class="rate" x="640" y="41">의료보험 이용자 풀 +1.0%/년</text>
+<rect class="bx gr" x="40" y="82" width="560" height="52" rx="8"/>
+<text class="t b" x="56" y="103">정책·재정 (방향은 강제, 크기는 제한)</text>
+<text class="s" x="56" y="122">재택 이행은 원함 (기본단가 삭감 0회) · 순증·남용은 깎음 (2024·2026 適正化, 包括型)</text>
+<text class="rate" x="640" y="97">어쩔 수 없는 부분 +5~8%</text>
+<text class="rate neg" x="640" y="117">부산물: 2026 일회성 −4.3%</text>
+<rect class="bx gr" x="40" y="154" width="560" height="52" rx="8"/>
+<text class="t b" x="56" y="175">core = 인구 +1.0 + 침투 +4.5 + 단가표 +1.4 + 케이스믹스 +1.5</text>
+<text class="s" x="56" y="194">침투율 약 12% · 간호사 공급이 허용하는 만큼 (연 +8,500명 필요) · 침투 +5.5 → +3.5로 감쇠</text>
+<text class="rate" x="640" y="185">core +8.5%/년</text>
+<rect class="bx hk" x="40" y="226" width="560" height="52" rx="8"/>
+<text class="t b" x="56" y="247">방문간호 시장 (FY25→30)</text>
+<text class="s" x="56" y="266">core +8.5 + 부산물 +0.7 · 하한 +1.9 / 상한 +16.0 · 마이너스는 하한 FY2026 한 해뿐</text>
+<text class="rate" x="640" y="241">의료보험분 +9.3%/년</text>
+<text class="rate" x="640" y="261">총시장 +7.9%/년</text>
+<rect class="bx" x="40" y="298" width="560" height="52" rx="8"/>
+<text class="t b" x="56" y="319">전국 스테이션 수 (eWeLL 고객 모수)</text>
+<text class="s" x="56" y="338">+8.2% → +6.9% 감속 · 신규 2,487 vs 폐지 886 · 잔여 시장: 경쟁사 60% / 비접근 22% / 빈땅 19%</text>
+<text class="rate" x="640" y="329">+6.9%/년 (감속 중)</text>
+<rect class="bx ew" x="40" y="370" width="270" height="52" rx="8"/>
+<text class="t b" x="56" y="391">eWeLL 스테이션</text>
+<text class="s" x="56" y="410">3,501 → 5,853 (중심) · 점유율 17.8 → 21.3%</text>
+<text class="rate" x="56" y="440">+10.8%/년 (점유율 +1%p/년 상한)</text>
+<text class="t b" x="322" y="401" font-size="18">×</text>
+<rect class="bx ew" x="340" y="370" width="260" height="52" rx="8"/>
+<text class="t b" x="356" y="391">ARPU (월, 평균 스테이션 기준)</text>
+<text class="s" x="356" y="410">89,700 → 114,482円 · 방문건수 자동 +2.5~4% · 옵션 25→38%</text>
+<text class="rate" x="356" y="440">+5.0%/년 (하한 +0.4 / 상한 +6.0)</text>
+<rect class="bx ew" x="40" y="458" width="180" height="52" rx="8"/>
+<text class="t b" x="56" y="479">매출</text>
+<text class="s" x="56" y="498">33.9 → 74.8억엔 (중심)</text>
+<text class="rate" x="56" y="528">+17.1%/년 (+6.7~+23.0)</text>
+<text class="t b" x="232" y="489" font-size="18">×</text>
+<rect class="bx ew" x="250" y="458" width="180" height="52" rx="8"/>
+<text class="t b" x="266" y="479">영업이익률</text>
+<text class="s" x="266" y="498">45.3 → 44.0 (FY28) → 45.0%</text>
+<text class="rate" x="266" y="528">45% 횡보 (40~50)</text>
+<text class="t b" x="442" y="489" font-size="18">×</text>
+<rect class="bx ew" x="460" y="458" width="140" height="52" rx="8"/>
+<text class="t b" x="476" y="479">(1 − 세율)</text>
+<text class="s" x="476" y="498">29.6 → 30.8% (FY27~)</text>
+<text class="rate" x="476" y="528">희석 −0.6%/년</text>
+<rect class="bx ew" x="640" y="458" width="230" height="52" rx="8" stroke-width="2"/>
+<text class="t b" x="656" y="479">순이익</text>
+<text class="s" x="656" y="498">10.9 → 23.4억엔 (중심) · PEG ≈ 1.6</text>
+<text class="rate" x="656" y="528">+16.5%/년 (+3.7~+24.9)</text>
+<path d="M610 484 L638 484" stroke="#8f8d85" stroke-width="1.5" marker-end="url(#ah2)"/>
+<path d="M320 62 L320 80 M320 134 L320 152 M320 206 L320 224 M320 278 L320 296 M320 350 L320 368 M320 422 L320 456" stroke="#8f8d85" stroke-width="1.5" fill="none" marker-end="url(#ah2)"/>
+</svg>
+<p class="cap">인구는 바닥(+1%)일 뿐 동력이 아니다. 시장 성장의 본체는 정책이 열어 둔 침투이고, eWeLL 매출은 그 위에 점유율 +1%p/년과 종량제 ARPU가 곱해진 결과다. 순이익은 마진이 횡보하므로 매출보다 약간 느리다. (09-14 턴 5·6·7·8)</p>
+</div>
+
+<h2>3. 전망 — FY2025 실적 → FY2030 (하한 / 중심 / 상한)</h2>
+<div class="charts" id="charts"></div>
+<p class="note" style="margin:8px 0 10px">중심 = 스테이션 5,853개소 × ARPU +5.0%/년 × OPM U자. 하한 = 스테이션 4,481(점유율 19.4% 천장) × ARPU +2.0% + 2028년 包括型 독립형 확장(ARPU 레벨 −7.5%) × OPM 40%. 상한 = 스테이션 7,100(실질 SAM 상단 소진) × ARPU +6.0% × OPM 50%. 매출 = 연평균 스테이션 × ARPU × 12, 순이익 = 매출 × OPM × 1.006 × (1 − 세율).</p>
+<div class="card">
+<div class="tw"><table>
+  <tr><th></th><th class="r">FY25 실적</th><th class="r">FY26</th><th class="r">FY27</th><th class="r">FY28</th><th class="r">FY29</th><th class="r">FY30</th><th class="r">CAGR</th></tr>
+  <tr><td>스테이션 (연말, 중심)</td><td class="r">3,501</td><td class="r">4,026</td><td class="r">4,527</td><td class="r">5,003</td><td class="r">5,428</td><td class="r">5,853</td><td class="r">+10.8%</td></tr>
+  <tr><td>ARPU 円/월 (중심)</td><td class="r">89,700</td><td class="r">94,185</td><td class="r">98,894</td><td class="r">103,839</td><td class="r">109,031</td><td class="r">114,482</td><td class="r">+5.0%</td></tr>
+  <tr><td>매출 하한</td><td class="r">33.9</td><td class="r">38.6</td><td class="r">42.2</td><td class="r">42.1</td><td class="r">44.6</td><td class="r">46.9</td><td class="r">+6.7%</td></tr>
+  <tr><td class="mid">매출 중심</td><td class="r mid">33.9</td><td class="r mid">41.0</td><td class="r mid">49.0</td><td class="r mid">57.3</td><td class="r mid">65.9</td><td class="r mid">74.8</td><td class="r mid">+17.1%</td></tr>
+  <tr><td>매출 상한</td><td class="r">33.9</td><td class="r">43.1</td><td class="r">55.7</td><td class="r">70.3</td><td class="r">83.7</td><td class="r">95.4</td><td class="r">+23.0%</td></tr>
+  <tr><td>매출 YoY (중심)</td><td class="r">+31.9%</td><td class="r">+21.0%</td><td class="r">+19.3%</td><td class="r">+17.0%</td><td class="r">+14.9%</td><td class="r">+13.6%</td><td class="r">—</td></tr>
+  <tr><td>OPM 하한 / 중심 / 상한</td><td class="r">45.3</td><td class="r">44.8 / <b>45.05</b> / 45.5</td><td class="r">43.5 / <b>44.3</b> / 46.5</td><td class="r">41.5 / <b>44.0</b> / 47.5</td><td class="r">40.5 / <b>44.5</b> / 48.5</td><td class="r">40.0 / <b>45.0</b> / 50.0</td><td class="r">—</td></tr>
+  <tr><td>영업이익 (중심)</td><td class="r">15.4</td><td class="r">18.5</td><td class="r">21.7</td><td class="r">25.2</td><td class="r">29.3</td><td class="r">33.7</td><td class="r">+17.0%</td></tr>
+  <tr><td>순이익 하한</td><td class="r">10.9</td><td class="r">12.2</td><td class="r">12.8</td><td class="r">12.2</td><td class="r">12.6</td><td class="r">13.1</td><td class="r">+3.7%</td></tr>
+  <tr><td class="mid">순이익 중심</td><td class="r mid">10.9</td><td class="r mid">13.1</td><td class="r mid">15.1</td><td class="r mid">17.6</td><td class="r mid">20.4</td><td class="r mid">23.4</td><td class="r mid">+16.5%</td></tr>
+  <tr><td>순이익 상한</td><td class="r">10.9</td><td class="r">13.9</td><td class="r">18.0</td><td class="r">23.2</td><td class="r">28.2</td><td class="r">33.2</td><td class="r">+24.9%</td></tr>
+</table></div>
+<p class="note">실효세율 29.6% → FY27부터 30.8%(防衛特別法人税). 순이익은 희석 전 기준이며 EPS는 연 −0.6%를 빼 중심 +15.8%. 회사 신중계(FY28 매출 61.49 / OP 27.85 / 4,882개소 / ARPU 110,300円)는 매출 CAGR +21.9%로 본 중심보다 높고, 옵션 침투 25→45%를 3년 안에 요구한다.</p>
+</div>
+
+<div class="cols">
+<div class="card">
+<h3>시나리오가 갈리는 가정</h3>
+<div class="tw"><table>
+  <tr><th>축</th><th>하한</th><th>중심</th><th>상한</th></tr>
+  <tr><td>스테이션 FY30</td><td>4,481 (19.4% 천장)</td><td>5,853</td><td>7,100 (SAM 소진)</td></tr>
+  <tr><td>ARPU /년</td><td>+2.0%, FY28 −7.5% 레벨컷</td><td>+5.0%</td><td>+6.0%</td></tr>
+  <tr><td>OPM FY30</td><td>40% (레버리지 소실 + BPaaS)</td><td>45% (U자)</td><td>50% (AI 옵션 고마진)</td></tr>
+  <tr><td>2028 包括型 독립형 확장</td><td>발생</td><td>미발생</td><td>미발생</td></tr>
+</table></div>
+<p class="note">중심·상한은 확률 45~60%의 사건이 발생하지 않는다고 가정한다. 중심값은 기대값이 아니라 "동전이 유리하게 떨어졌을 때의 경로"로 읽어야 한다.</p>
+</div>
+<div class="card">
+<h3>밸류에이션 매핑 (시총 329억엔 · PER 24.6배, 2026.9.7)</h3>
+<div class="tw"><table>
+  <tr><th>FY30</th><th class="r">순이익</th><th class="r">24.6배 유지</th><th class="r">연율</th></tr>
+  <tr><td>하한</td><td class="r">13.1</td><td class="r">312억엔</td><td class="r">−1.1%</td></tr>
+  <tr><td class="mid">중심</td><td class="r mid">23.4</td><td class="r mid">559억엔</td><td class="r mid">+11.2%</td></tr>
+  <tr><td>중심, 18배 (SAM 소진 디레이팅)</td><td class="r">23.4</td><td class="r">409억엔</td><td class="r">+4.5%</td></tr>
+  <tr><td>상한</td><td class="r">33.2</td><td class="r">792억엔</td><td class="r">+19.2%</td></tr>
+</table></div>
+<p class="note">희석 누적 −3% 반영. 교차검증: 329 ÷ 24.6 = 시장이 내포한 FY26 순이익 13.4억엔 ≈ 모델 중심 13.1억엔. 즉 현재 가격은 중심 시나리오의 FY26을 이미 적정하게 반영하고 있다.</p>
+</div>
+</div>
+
+<h2>4. 결론을 구성하는 판정 8개</h2>
+<div class="card">
+<ol class="pt">
+  <li><b>인구가 미는 시장이 아니라 정책이 여는 침투 시장이다.</b> 연령가중 인구 증가는 +1.0%/년, 과거 성장 +19.5% 중 인구 기여는 1.2%p뿐. 85세↑ 급증은 2032년 이후라 3~5년 창 밖. <span class="src">— 09-14 턴 5·6, 문서 3</span></li>
+  <li><b>시장 성장은 과거의 절반으로 감속하되 core가 바닥을 받친다.</b> 의료보험분 +9.3%(core +8.5 + 부산물 +0.7), 총시장 +7.9%. 2026.6 개정은 성장률이 아니라 레벨을 한 번 −4.3% 깎고, 이후 풍선효과 +1~3%가 남는다. 마이너스는 하한 FY2026 한 해뿐. <span class="src">— 09-14 턴 6, 문서 6·8</span></li>
+  <li><b>남은 80%는 빈땅이 아니다.</b> 잔여 15,252개소 = 경쟁사 60% / 비접근 22% / 빈땅 19%. カイポケ(累計 7,000, 월 25,000円 정액)가 의무화 구간에서 월 +71 vs iBow +41~44로 빈땅을 선점. 신규 개설 획득률 19.4% = 스톡 점유율이라 점유율은 유지될 뿐, 상승은 +0.3~0.9%p/년. <span class="src">— 09-14 턴 7</span></li>
+  <li><b>실제로 팔 수 있는 남은 시장은 2,800~3,600개소뿐이다.</b> 중심 5년 순증 +2,352가 이를 거의 소진하고 상한 +3,599는 정확히 소진한다. FY2030을 종점으로 삼고 출구 멀티플을 디레이팅해야 하는 이유. <span class="src">— 09-14 턴 7·8</span></li>
+  <li><b>성장은 점유율이 아니라 ARPU에서 나온다.</b> 종량제(18,000 + 100円/방문)가 시장 성장을 가격 인상 없이 흡수(방문건수 +2.5~4%/년)하고 옵션 침투(25→38%)가 얹힌다. ARPU +5%/년이 인정 가능한 선이며, 회사 목표 +21.9%는 침투 25→45%를 3년 안에 요구해 실측이 지지하지 않는다. ARPU 목표는 이미 한 번 미달(90,300 → 88,800). <span class="src">— 09-14 턴 7·8</span></li>
+  <li><b>마진 개선의 실체는 고정비 위에 매출을 얹은 것이다.</b> FY24→25 +1.1pp = 판관비 레버리지 +2.9pp − 원가율 악화 −1.8pp(BPaaS 믹스). 회사 스스로 FY26 45.05%·FY28 45.3%로 "유지"를 계획하고, FY26 H1은 상장 후 첫 YoY 하락(−1.6pp). 역풍(BPaaS 비중 확대·春闘 임금·채용 선행)이 FY26~28에 몰려 경로는 U자. <span class="src">— 09-14 턴 8</span></li>
+  <li><b>순이익은 매출보다 조금 느리고, 시나리오 폭은 매출보다 넓다.</b> 리스크는 매출이 아니라 마진에 있다. NI 폭 2.5배 > 매출 폭 2.0배. PER 24.6 × EPS +15.8% = PEG 1.6. 하한은 멀티플을 유지해도 현재 시총을 밑돈다. <span class="src">— 09-14 턴 8</span></li>
+  <li><b>단일 최대 리스크는 2028년 개정의 包括型 독립형 확장이다.</b> 확률 45~60%, 발생 시 독립형(총액의 85~90%)에 −8~15% → eWeLL ARPU 레벨 −7.5%, 하한 FY28 매출 역성장. 2027년 하반기 中医協 논점 자료에서 미리 드러난다. 2위는 규제발 고객 폐업(폐지 886건, +26%; eWeLL 손실률 6.5% = 업계 폐지율). <span class="src">— 09-14 턴 4·6·7, 문서 5</span></li>
+</ol>
+</div>
+
+<h2>5. 예측을 갱신할 시점</h2>
+<div class="card">
+<div class="tw"><table>
+  <tr><th>시점</th><th>확인할 것</th><th>판정 규칙</th></tr>
+  <tr><td>2026.10</td><td>국민의료비 令和6(FY2024) 訪問看護療養費</td><td>7,000억엔↑(+22%)이면 2024 개정 무효 → 시장 상향. 6,600억엔↓(+15%)이면 감속 확인 → 하향. 금액 레벨 ±8%만 이동, 성장률 표는 불변</td></tr>
+  <tr><td>2026.10~12</td><td>MEDIAS 2026.9 심사분 (2026.6 개정 첫 실측)</td><td>전년동월 +10%↑ 유지면 되돌림 약함 → FY26~27 상향. 0% 이하면 강함 → FY26~27 하향이지만 2028 추가규제 확률이 낮아져 FY28~30은 상향(비대칭)</td></tr>
+  <tr><td>2026 여름~가을</td><td>협회 2026.4.1 스테이션 수·폐지 건수</td><td>+8%↑면 분모 가정 보수적(고객 모수 상향, 점유율 하향). +4% 미만이면 변곡 → 스테이션 중심을 하한 쪽으로. 폐지 1,300건대면 손실률 9%대 → 하한 4,481도 위험</td></tr>
+  <tr><td>2027.2 전후</td><td>FY2026 통기: H2 OPM, 매출, AI 옵션 유료 200건</td><td>H2 OPM 42.9%↑면 U자 유지, 42% 미만이면 중심 OPM을 하한 쪽으로(NI 종점 20억엔대 초반), 45%↑면 상한 브리지로. AI 옵션 200건 달성이면 ARPU +5% 유지, 150건 미만이면 +3~4%로 하향(OPM 믹스도 같이 축소)</td></tr>
+  <tr><td>2027 하반기</td><td>中医協 논점 자료 — "병설형 이외로의 확대 검토" 문구</td><td>등장하면 하한 시나리오가 중심이 됨(NI 종점 19억엔대, 멀티플 18배 이하). 없으면 중심 유지, 하한 완화</td></tr>
+  <tr><td>2028.6</td><td>2028년도 개정 확정 — 包括型 적용 범위, 同一建物 감액률</td><td>독립형까지 확장이면 세 시나리오 모두 ARPU −7.5%(중심 매출 74.8 → 약 69, NI 23.4 → 약 21). 병설형 한정이면 중심·상한 확정</td></tr>
+</table></div>
+</div>
+
+<h2>6. 대화 시점 수치와의 차이 (정합화 메모)</h2>
+<div class="card">
+<ul>
+  <li>대화(09-14 턴 8)의 판정은 매출 +16~17% / 마진 45~46% 횡보 / 순이익 +15~17%였다. 세 축(스테이션 표·ARPU +5~6%·감속 경로)을 하나의 산식으로 닫자 <b>중심은 매출 +17.1% / 순이익 +16.5%</b>로 대화 밴드 상단에 붙고, <b>하한이 크게 넓어졌다</b>(순이익 +7.6% → <span class="fix">+3.7%</span>). 이유: 대화의 하한은 ARPU가 중심보다 빨리 오르는 순서 역전 위에 있었고, 확률 45~60%의 2028 包括型 확장을 하한에조차 넣지 않았다.</li>
+  <li>상한 스테이션은 7,952 → <span class="fix">7,100</span>으로 절사(대화가 명시한 실질 SAM 상단 3,600개소 소진). 상한 순이익 39.3 → 33.2억엔.</li>
+  <li>FY26 중심 순이익은 대화 14.0 → <span class="fix">13.1억엔</span>. 대화 값은 가이던스 OPM 45.05%·영업외 +0.6%·세율 29.6%로 복원되지 않으며, 시총 ÷ PER가 내포한 13.4억엔이 모델 쪽을 지지한다.</li>
+  <li>중심 OPM 종점은 브리지 46.0% → <span class="fix">45.0%</span>("45~46% 횡보" 하단). 46%를 쓰면 NI CAGR = 매출 CAGR이 되어 "세율 상승만큼 순이익이 약간 느리다"는 대화 서술이 재현되지 않는다.</li>
+  <li>FY30 점유율은 대화 23.6% → <span class="fix">21.3%</span>(전국 스테이션 +6.9%/년을 4.75년 적용). 매출·순이익 표에는 영향 없음.</li>
+  <li>ARPU 기준선은 89,700円(매출 ÷ 평균 스테이션 3,150, 문서 5)을 채택. 88,800円은 가격카드 빌드업(코어 66,600 + 옵션 22,200)이라 정의가 다르며 병기만 한다.</li>
+</ul>
+</div>
+
+<h2>7. 한계</h2>
+<div class="card">
+<ul>
+  <li>1차 출처(mhlw·e-Stat 등) 직접 열람이 403으로 차단되어 모든 수치는 검색 스니펫 교차대조 기반이며 A~D 등급이 붙어 있다. 우회하지 않았다.</li>
+  <li>FY2024·25 국민의료비 미공표 → 전방시장 base(6,758 / 7,840억엔)는 자체추정, 금액 경로 ±8% 평행이동 가능. 개호보험분 3,937억엔은 費用額/給付費 미확인(±10%).</li>
+  <li>カイポケ 7,000건은 累計(가동 5,500~6,500 가능). 빈땅 셀은 2020년 조사의 5년 외삽. 둘 다 폭만 바꾸고 판정 방향은 바꾸지 않는다.</li>
+  <li>소프트웨어 자산화 규모 미확인(有価証券報告書 附属明細表). 자본화 비중이 크면 OPM 45%의 현금 품질은 수 pp 낮다.</li>
+  <li>2026.6 同一建物 감액률, eWeLL의 병설형 고객 노출도, FY2026 매출 가이던스 금액 미확인. FY2029 스테이션은 대화에 없어 선형보간.</li>
+  <li>회사 숫자는 신중계 FY2028까지이고 FY2029~30은 전부 외삽이다.</li>
+</ul>
+</div>
+
+<p class="src" style="margin-top:22px">근거: <code>content/eWeLL_조사/</code> 문서 0~8, <a href="9_대화_타임라인.html">9. 대화 타임라인</a>. 전망 모델은 대화 수치를 하나의 산식으로 정합화한 뒤 산술·근거 충실도·투자자 세 렌즈로 검증한 결과다.</p>
+</main>
+
+<script>
+(function(){
+  var FY=['FY25','FY26','FY27','FY28','FY29','FY30'];
+  var D=[
+    {key:'rev', title:'매출 (억엔)', color:'#2a78d6', ymax:100, step:25,
+      low:[33.9,38.6,42.2,42.1,44.6,46.9], mid:[33.9,41.0,49.0,57.3,65.9,74.8], high:[33.9,43.1,55.7,70.3,83.7,95.4], fmt:function(v){return v.toFixed(1)}},
+    {key:'ni', title:'순이익 (억엔)', color:'#eb6834', ymax:40, step:10,
+      low:[10.9,12.2,12.8,12.2,12.6,13.1], mid:[10.9,13.1,15.1,17.6,20.4,23.4], high:[10.9,13.9,18.0,23.2,28.2,33.2], fmt:function(v){return v.toFixed(1)}},
+    {key:'opm', title:'영업이익률 (%)', color:'#1baf7a', ymin:35, ymax:52, step:5,
+      low:[45.3,44.8,43.5,41.5,40.5,40.0], mid:[45.3,45.05,44.3,44.0,44.5,45.0], high:[45.3,45.5,46.5,47.5,48.5,50.0], fmt:function(v){return v.toFixed(1)+'%'}}
+  ];
+  var W=300,H=210,P={l:34,r:38,t:12,b:26};
+  var root=document.getElementById('charts');
+  D.forEach(function(c){
+    var ymin=c.ymin||0, ymax=c.ymax;
+    var x=function(i){return P.l+(W-P.l-P.r)*i/(FY.length-1)};
+    var y=function(v){return P.t+(H-P.t-P.b)*(1-(v-ymin)/(ymax-ymin))};
+    var s='';
+    for(var g=ymin; g<=ymax+0.001; g+=c.step){
+      s+='<line class="gl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+y(g).toFixed(1)+'" y2="'+y(g).toFixed(1)+'"/>';
+      s+='<text class="ax" x="'+(P.l-6)+'" y="'+(y(g)+4).toFixed(1)+'" text-anchor="end">'+(c.key==='opm'?g:g.toLocaleString())+'</text>';
+    }
+    s+='<line class="bl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+y(ymin).toFixed(1)+'" y2="'+y(ymin).toFixed(1)+'"/>';
+    FY.forEach(function(f,i){ s+='<text class="ax" x="'+x(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+f+'</text>'; });
+    var band='M'+c.high.map(function(v,i){return x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' L ');
+    band+=' L '+c.low.slice().reverse().map(function(v,j){var i=c.low.length-1-j;return x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' L ')+' Z';
+    s+='<path d="'+band+'" fill="'+c.color+'" fill-opacity="0.12"/>';
+    s+='<path d="M'+c.low.map(function(v,i){return x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' L ')+'" fill="none" stroke="'+c.color+'" stroke-opacity="0.45" stroke-width="1" stroke-linejoin="round"/>';
+    s+='<path d="M'+c.high.map(function(v,i){return x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' L ')+'" fill="none" stroke="'+c.color+'" stroke-opacity="0.45" stroke-width="1" stroke-linejoin="round"/>';
+    s+='<path d="M'+c.mid.map(function(v,i){return x(i).toFixed(1)+' '+y(v).toFixed(1)}).join(' L ')+'" fill="none" stroke="'+c.color+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+    var n=FY.length-1;
+    s+='<circle cx="'+x(n).toFixed(1)+'" cy="'+y(c.mid[n]).toFixed(1)+'" r="5.5" fill="#fff"/><circle cx="'+x(n).toFixed(1)+'" cy="'+y(c.mid[n]).toFixed(1)+'" r="4" fill="'+c.color+'"/>';
+    s+='<text class="lab" x="'+(x(n)+7).toFixed(1)+'" y="'+(y(c.mid[n])+4).toFixed(1)+'">'+c.fmt(c.mid[n])+'</text>';
+    s+='<text class="lab2" x="'+(x(n)+7).toFixed(1)+'" y="'+(y(c.high[n])+4).toFixed(1)+'">'+c.fmt(c.high[n])+'</text>';
+    s+='<text class="lab2" x="'+(x(n)+7).toFixed(1)+'" y="'+(y(c.low[n])+4).toFixed(1)+'">'+c.fmt(c.low[n])+'</text>';
+    s+='<line class="cur" id="cur-'+c.key+'" y1="'+P.t+'" y2="'+y(ymin).toFixed(1)+'" x1="0" x2="0"/>';
+    s+='<circle id="dot-'+c.key+'" r="4" fill="'+c.color+'" stroke="#fff" stroke-width="2" style="opacity:0"/>';
+    var slot=(W-P.l-P.r)/(FY.length-1);
+    FY.forEach(function(f,i){
+      s+='<rect class="hit" data-i="'+i+'" tabindex="0" x="'+(x(i)-slot/2).toFixed(1)+'" y="0" width="'+slot.toFixed(1)+'" height="'+H+'" aria-label="'+f+' 하한 '+c.fmt(c.low[i])+' 중심 '+c.fmt(c.mid[i])+' 상한 '+c.fmt(c.high[i])+'"/>';
+    });
+    var el=document.createElement('div'); el.className='ch';
+    el.innerHTML='<div class="ttl">'+c.title+'</div><div class="lg"><span><i class="ln" style="background:'+c.color+'"></i>중심</span><span><i class="wash" style="background:'+c.color+'"></i>하한~상한</span></div>'
+      +'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+c.title+' FY2025→FY2030 하한·중심·상한">'+s+'</svg><div class="tip"></div>';
+    root.appendChild(el);
+    var tip=el.querySelector('.tip'), cur=el.querySelector('#cur-'+c.key), dot=el.querySelector('#dot-'+c.key), svg=el.querySelector('svg');
+    function show(i){
+      var r=svg.getBoundingClientRect(), er=el.getBoundingClientRect(), sx=r.width/W, sy=r.height/H;
+      var ox=r.left-er.left, oy=r.top-er.top;
+      tip.innerHTML='<b>'+FY[i]+'</b><br>상한 '+c.fmt(c.high[i])+'<br>중심 '+c.fmt(c.mid[i])+'<br>하한 '+c.fmt(c.low[i]);
+      tip.style.opacity=1;
+      var left=(ox+x(i)*sx+12), top=(oy+y(c.mid[i])*sy-34);
+      if(left+130>el.clientWidth) left=ox+x(i)*sx-140;
+      if(top<0) top=0;
+      tip.style.left=left+'px'; tip.style.top=top+'px';
+      cur.setAttribute('x1',x(i)); cur.setAttribute('x2',x(i)); cur.style.opacity=1;
+      dot.setAttribute('cx',x(i)); dot.setAttribute('cy',y(c.mid[i])); dot.style.opacity=1;
+    }
+    function hide(){ tip.style.opacity=0; cur.style.opacity=0; dot.style.opacity=0; }
+    el.querySelectorAll('.hit').forEach(function(h){
+      h.addEventListener('mouseenter',function(){show(+h.dataset.i)});
+      h.addEventListener('focus',function(){show(+h.dataset.i)});
+      h.addEventListener('mouseleave',hide); h.addEventListener('blur',hide);
+    });
+  });
+})();
+</script>
+</body>
+</html>
